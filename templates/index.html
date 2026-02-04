@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalized Learning Roadmap</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        .roadmap {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .skill {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .completed {
+            background: #16a34a;
+        }
+
+        .next_step {
+            background: #2563eb;
+        }
+
+        .locked {
+            background: #334155;
+            opacity: 0.6;
+        }
+
+        .skill button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .skill button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🚀 Personalized Learning Roadmap</h1>
+
+<div class="controls">
+    <select id="roleSelect">
+        <option value="frontend">Frontend</option>
+        <!-- Add more roles later -->
+    </select>
+
+    <button onclick="loadRoadmap()">Load Roadmap</button>
+</div>
+
+<div class="roadmap" id="roadmap"></div>
+
+<script>
+    const API_BASE = "http://127.0.0.1:5000";
+
+    async function loadRoadmap() {
+        const role = document.getElementById("roleSelect").value;
+
+        const res = await fetch(`${API_BASE}/roadmap/${role}`);
+        const data = await res.json();
+
+        renderRoadmap(data.progress_graph);
+    }
+
+    function renderRoadmap(nodes) {
+        const container = document.getElementById("roadmap");
+        container.innerHTML = "";
+
+        nodes.forEach(node => {
+            const div = document.createElement("div");
+            div.className = `skill ${node.status}`;
+
+            const label = document.createElement("span");
+            label.innerText = node.label;
+
+            const btn = document.createElement("button");
+            btn.innerText = "Mark Done";
+
+            if (node.status !== "next_step") {
+                btn.disabled = true;
+            }
+
+            btn.onclick = () => markCompleted(node.id);
+
+            div.appendChild(label);
+            div.appendChild(btn);
+            container.appendChild(div);
+        });
+    }
+
+    async function markCompleted(skillId) {
+        const role = document.getElementById("roleSelect").value;
+
+        await fetch(`${API_BASE}/update-progress`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                role: role,
+                skill_id: skillId
+            })
+        });
+
+        loadRoadmap();
+    }
+
+    // Auto-load on page open
+    loadRoadmap();
+</script>
+
+</body>
+</html>
