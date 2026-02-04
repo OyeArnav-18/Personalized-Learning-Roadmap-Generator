@@ -1,6 +1,6 @@
 {
   "Web Development": {
-    "Frontend": {
+    "Frontend basics": {
       "HTML": {},
       "CSS": {},
       "JavaScript": {
@@ -9,7 +9,7 @@
         "Next.js": {}
       }
     },
-    "Backend": {
+    "Backend basics": {
       "Node.js": { "Express": {}, "Authentication": {}, "REST APIs": {} },
       "Databases": { "SQL": {}, "MongoDB": {}, "ORMs": {} },
       "DevOps Basics": { "Docker": {}, "CI/CD": {} }

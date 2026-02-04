@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="/static/roadmap.css">
+    <link rel="stylesheet" href="/static/roadmap.css">
 </head>
 <body>
-<h2>Your Roadmap 📚</h2>
-<ul>
-{% for skill in roadmap %}
-<li>{{ skill }}</li>
-{% endfor %}
-</ul>
-<a href="/">Back</a>
+
+<h2>Your Roadmap</h2>
+
+<div class="roadmap-container">
+    {% for skill in roadmap %}
+        <div class="roadmap-item">{{ skill }}</div>
+    {% endfor %}
+</div>
+
+<a href="/" class="back-link">Back</a>
+
 </body>
 </html>
