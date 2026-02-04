@@ -10,7 +10,7 @@ engine = RoadmapEngine()
 
 @app.route('/')
 def home():
-    return "<h1>Backend Connected to MySQL 🐬</h1>"
+    return render_template("index.html")
 
 
 # Endpoint 1: Get Roadmap (Now loads SAVED progress!)
