@@ -1,0 +1,112 @@
+{
+  "Web Development": {
+    "Frontend": {
+      "HTML": {},
+      "CSS": {},
+      "JavaScript": {
+        "React": {},
+        "Vue": {},
+        "Next.js": {}
+      }
+    },
+    "Backend": {
+      "Node.js": { "Express": {}, "Authentication": {}, "REST APIs": {} },
+      "Databases": { "SQL": {}, "MongoDB": {}, "ORMs": {} },
+      "DevOps Basics": { "Docker": {}, "CI/CD": {} }
+    }
+  },
+
+  "AI / Machine Learning": {
+    "Python": {
+      "Data Structures": {},
+      "Machine Learning": {
+        "Supervised Learning": {},
+        "Unsupervised Learning": {},
+        "Deep Learning": {
+          "Neural Networks": {},
+          "NLP": {},
+          "Computer Vision": {}
+        }
+      }
+    }
+  },
+
+  "Mobile App Development": {
+    "Android": {
+      "Kotlin": {},
+      "Jetpack Compose": {},
+      "Firebase": {}
+    },
+    "iOS": {
+      "Swift": {},
+      "SwiftUI": {},
+      "Core Data": {}
+    },
+    "Cross Platform": {
+      "Flutter": {},
+      "React Native": {}
+    }
+  },
+
+  "Data Science": {
+    "Python for Data": {
+      "NumPy": {},
+      "Pandas": {},
+      "Matplotlib": {},
+      "Seaborn": {}
+    },
+    "Statistics": {
+      "Probability": {},
+      "Hypothesis Testing": {},
+      "Regression": {}
+    },
+    "Big Data": {
+      "Hadoop": {},
+      "Spark": {}
+    }
+  },
+
+  "Cybersecurity": {
+    "Networking Basics": {
+      "TCP/IP": {},
+      "DNS": {},
+      "Firewalls": {}
+    },
+    "Security Concepts": {
+      "Cryptography": {},
+      "Authentication": {},
+      "Authorization": {}
+    },
+    "Ethical Hacking": {
+      "Kali Linux": {},
+      "Penetration Testing": {},
+      "Vulnerability Scanning": {}
+    }
+  },
+
+  "Cloud & DevOps": {
+    "Linux Fundamentals": {},
+    "Cloud Providers": {
+      "AWS": { "EC2": {}, "S3": {}, "IAM": {} },
+      "Azure": {},
+      "GCP": {}
+    },
+    "DevOps Tools": {
+      "Docker": {},
+      "Kubernetes": {},
+      "Terraform": {}
+    }
+  },
+
+  "Game Development": {
+    "Game Engines": {
+      "Unity": { "C#": {}, "Physics": {}, "Animations": {} },
+      "Unreal Engine": { "Blueprints": {}, "C++": {} }
+    },
+    "Game Design": {
+      "Level Design": {},
+      "Storytelling": {},
+      "UI/UX for Games": {}
+    }
+  }
+}

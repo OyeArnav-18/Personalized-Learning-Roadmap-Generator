@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personalized Learning Roadmap</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script>
+        // 🔎 Skill Suggestions
+        function suggestSkill() {
+            let q = document.getElementById("skill_input").value;
+            fetch("/suggest?q=" + q)
+            .then(res => res.json())
+            .then(data => {
+                let box = document.getElementById("suggestions");
+                box.innerHTML = "";
+                data.forEach(s => {
+                    let li = document.createElement("li");
+                    li.innerText = s;
+                    li.onclick = () => selectSkill(s);
+                    box.appendChild(li);
+                });
+            });
+        }
+
+        // When user clicks a suggestion
+        function selectSkill(skill) {
+            document.getElementById("skill_input").value = skill;
+            document.getElementById("suggestions").innerHTML = "";
+            loadChecklist();
+        }
+
+        // 🧠 Asking Logic (IMPORTANT PART)
+        function loadChecklist() {
+            let skill = document.getElementById("skill_input").value;
+            let level = document.getElementById("level").value;
+            let section = document.getElementById("skill_section");
+
+            // 🚫 If Beginner → DO NOT ASK
+            if (level === "beginner") {
+                section.style.display = "none";
+                document.getElementById("known_skills_container").innerHTML = "";
+                return;
+            }
+
+            // For Intermediate & Advanced → show checklist
+            if (!skill) return;
+
+            fetch(`/preview?skill=${skill}&level=${level}`)
+            .then(res => res.json())
+            .then(data => {
+                let box = document.getElementById("known_skills_container");
+                box.innerHTML = "";
+
+                if (data.length === 0) {
+                    box.innerHTML = "<p>No prior topics required</p>";
+                } else {
+                    data.forEach(s => {
+                        box.innerHTML += `<input type="checkbox" name="known_skills" value="${s}"> ${s}<br>`;
+                    });
+                }
+
+                section.style.display = "block";
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+<h1>Personalized Learning Roadmap 🚀</h1>
+
+<form action="/generate" method="post">
+
+    <!-- Skill Input -->
+    <input type="text" id="skill_input" name="skill_input"
+           onkeyup="suggestSkill()" placeholder="Type a field...">
+    <ul id="suggestions"></ul>
+
+    <!-- Level Selection -->
+    <select name="level" id="level" onchange="loadChecklist()">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+    </select>
+
+    <!-- Asking Section -->
+    <div id="skill_section" style="display:none;">
+        <h3>Do you already know these topics?</h3>
+        <div id="known_skills_container"></div>
+    </div>
+
+    <button type="submit">Generate Roadmap</button>
+</form>
+
+</body>
+</html>

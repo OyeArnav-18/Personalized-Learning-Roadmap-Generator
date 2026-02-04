@@ -1,0 +1,59 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Main Card */
+.roadmap-container {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #334155;
+}
+
+/* Skill List */
+.roadmap-item {
+    background: #eef2ff;
+    margin: 10px 0;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    transition: 0.2s;
+}
+
+.roadmap-item:hover {
+    background: #c7d2fe;
+    transform: translateY(-2px);
+}
+
+/* Back Button */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: #6366f1;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.back-link:hover {
+    background: #4f46e5;
+}

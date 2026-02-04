@@ -1,76 +1,89 @@
 import json
-import os
-
 
 class RoadmapEngine:
     def __init__(self):
-        # We try to load the JSON file. If it doesn't exist, we fallback to empty.
-        self.data = self.load_data()
+        # Load hierarchical roadmap
+        with open("final_roadmaps.json", encoding="utf-8") as f:
+            self.data = json.load(f)
 
-    def load_data(self):
-        # This is the "Mock Data" that powers the graph
-        # You can expand this JSON list later!
-        return {
-            "frontend": {
-                "nodes": [
-                    {"id": "html", "label": "HTML", "level": "beginner"},
-                    {"id": "css", "label": "CSS", "level": "beginner"},
-                    {"id": "js", "label": "JavaScript", "level": "intermediate"},
-                    {"id": "react", "label": "React", "level": "advanced"}
-                ],
-                "edges": [
-                    {"from": "html", "to": "css"},
-                    {"from": "css", "to": "js"},
-                    {"from": "js", "to": "react"}
-                ]
-            }
-        }
+    # ------------------------------------------
+    # SEARCH SUGGESTIONS
+    # ------------------------------------------
+    def get_suggestions(self, query):
+        results = []
 
-    def get_full_roadmap(self, role):
-        # Returns the raw graph for Vis.js
-        return self.data.get(role, {})
+        def search(node):
+            for key, val in node.items():
+                if query.lower() in key.lower():
+                    results.append(key)
+                if isinstance(val, dict):
+                    search(val)
 
-    def calculate_progress(self, role, completed_skills):
-        """
-        The "Smart" Checklist Logic:
-        1. Mark known skills as completed.
-        2. Unlock new skills if prerequisites are met.
-        """
-        roadmap = self.data.get(role)
-        if not roadmap:
-            return {"error": "Role not found"}
+        search(self.data)
+        return results[:5]
 
-        nodes = roadmap['nodes']
-        edges = roadmap['edges']
+    # ------------------------------------------
+    # FIND SUBTREE OF SELECTED SKILL
+    # ------------------------------------------
+    def find_subtree(self, target):
+        def dfs(node):
+            for key, val in node.items():
+                if key == target:
+                    return val
+                if isinstance(val, dict):
+                    found = dfs(val)
+                    if found is not None:
+                        return found
+            return None
+        return dfs(self.data)
 
-        # 1. Identify what is done
-        completed_set = set(completed_skills)
+    # ------------------------------------------
+    # FLATTEN TREE WITH DEPTH CONTROL
+    # ------------------------------------------
+    def flatten_tree(self, tree, depth_limit=None, current_depth=1):
+        result = []
 
-        # 2. Build the status response
-        annotated_nodes = []
-        for node in nodes:
-            node_id = node['id']
-            status = "locked"
+        for key, val in tree.items():
+            result.append(key)
 
-            if node_id in completed_set:
-                status = "completed"
-            else:
-                # Find prerequisites (parents)
-                prereqs = [e['from'] for e in edges if e['to'] == node_id]
+            if isinstance(val, dict) and val:
+                if depth_limit is None or current_depth < depth_limit:
+                    result.extend(
+                        self.flatten_tree(val, depth_limit, current_depth + 1)
+                    )
+        return result
 
-                # If no prereqs OR all prereqs are done -> It's the Next Step!
-                if not prereqs or all(p in completed_set for p in prereqs):
-                    status = "next_step"
-                else:
-                    status = "locked"
+    # ------------------------------------------
+    # PREVIEW CHECKLIST (for “Do you know this?”)
+    # ------------------------------------------
+    def preview_topics(self, skill, level):
+        subtree = self.find_subtree(skill)
+        if subtree is None:
+            return []
 
-            annotated_nodes.append({
-                "id": node['id'],
-                "status": status,
-                "label": node['label']
-            })
+        if level == "beginner":
+            return self.flatten_tree(subtree, depth_limit=2)
+        elif level == "intermediate":
+            return self.flatten_tree(subtree, depth_limit=3)
+        else:
+            return self.flatten_tree(subtree)
 
-        return {
-            "role": role,
-            "progress_graph": annotated_nodes
-        }
+    # ------------------------------------------
+    # FINAL ROADMAP GENERATOR
+    # ------------------------------------------
+    def generate(self, skill, level, known_skills):
+        subtree = self.find_subtree(skill)
+        if subtree is None:
+            return []
+
+        if level == "beginner":
+            roadmap = self.flatten_tree(subtree, depth_limit=2)
+        elif level == "intermediate":
+            roadmap = self.flatten_tree(subtree, depth_limit=3)
+        else:
+            roadmap = self.flatten_tree(subtree)
+
+        # Remove topics user already knows
+        roadmap = [topic for topic in roadmap if topic not in known_skills]
+
+        return roadmap

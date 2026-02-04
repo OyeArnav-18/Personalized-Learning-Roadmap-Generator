@@ -1,0 +1,120 @@
+/* 🌈 Page Setup */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 📦 Main Card */
+form {
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* 🏷 Title */
+h1 {
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 30px;
+    font-size: 28px;
+}
+
+/* 🧠 Inputs */
+input[type="text"], select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 5px rgba(42, 82, 152, 0.5);
+}
+
+/* 🔍 Suggestion Box */
+#suggestions {
+    list-style: none;
+    margin: 5px 0 10px 0;
+    padding: 0;
+    background: #f9f9f9;
+    border-radius: 6px;
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+#suggestions li {
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#suggestions li:hover {
+    background: #2a5298;
+    color: white;
+}
+
+/* 📋 Checklist Section */
+#skill_section {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f4f6fb;
+    border-radius: 6px;
+}
+
+#skill_section h3 {
+    margin-top: 0;
+    font-size: 15px;
+}
+
+/* ☑ Checkboxes */
+input[type="checkbox"] {
+    margin-right: 6px;
+}
+
+/* 🚀 Button */
+button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    background: #2a5298;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #1e3c72;
+}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
+    form {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+        top: 15px;
+    }
+}
+
